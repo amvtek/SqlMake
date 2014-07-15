@@ -141,7 +141,7 @@ class ProjectIndexer(object):
 
         return rsrIdx
 
-    def build_schema(self, **kwargs):
+    def render_schema(self, **kwargs):
         "return full SQL schema built rendering indexed resources"
 
         # construct templating environment
@@ -157,6 +157,8 @@ class ProjectIndexer(object):
             # process resource template if any
             if rsr.tplstr:
 
+                isEmpty = False
+
                 # compile template
                 tpl = tplEnv.from_string(rsr.tplstr)
 
@@ -167,5 +169,6 @@ class ProjectIndexer(object):
 
                 # render template
                 buf.append(tpl.render(ctx))
+
 
         return u"\n".join(buf)

@@ -17,15 +17,17 @@
 
 import re, os, argparse
 
-_kvRe = re.compile("\s*([a-zA-z_-]+)\s*=\s*([a-zA-Z_]*)\s*$")
+_kvRe = re.compile("\s*([a-zA-z0-9_-]+)\s*=\s*([a-zA-Z0-9_]*)\s*$")
+
+from indexer import ProjectIndexer
 
 def input_path(fp):
     "make fp an absolute path and checks it exist"
 
     cwd = os.path.abspath(os.getcwd())
-    fp = os.path.join(cwd,fp)
-    if not os.path.exists(fp):
-        raise ValueError("Invalid input path !")
+    fp = os.path.normpath(os.path.join(cwd,fp))
+    if not os.path.isdir(fp):
+        raise ValueError("Invalid project folder !")
     return fp
 
 def key_value_pair(s):
@@ -45,7 +47,7 @@ def parse_command_line():
 
     parser.add_argument("ipath",
             metavar="IPATH", type=input_path,
-            help="path to folder or file that contains schema definitions"
+            help="path to folder that contains schema definitions"
             )
 
     parser.add_argument("-d", "--def",
@@ -54,12 +56,22 @@ def parse_command_line():
             help="list variable definition as name=value"
             )
 
+    parser.add_argument("--ext",
+            default="sql",
+            help="file extension for schema resources (default %(default)s)"
+            )
+
     return parser.parse_args()
 
 if __name__ == "__main__":
 
     args = parse_command_line()
 
-    print "CWD is ",os.getcwd()
+    print "---"
+    print "Now indexing project in %s " % args.ipath
 
-    print "ARGS = ",args
+    project = ProjectIndexer(args.ipath, args.ext)
+    context = dict(args.context or [])
+    
+    #TODO : this is provisional, we shall save content in a file
+    print project.render_schema(**context)
