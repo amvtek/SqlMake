@@ -15,7 +15,7 @@
     :email: devel@amvtek.com
 """
 
-import re, os, argparse
+import re, os, sys, argparse
 
 _kvRe = re.compile("\s*([a-zA-z0-9_-]+)\s*=\s*([a-zA-Z0-9_]*)\s*$")
 
@@ -56,6 +56,11 @@ def parse_command_line():
             help="list variable definition as name=value"
             )
 
+    parser.add_argument("--out",
+            dest="outfile", type=argparse.FileType('wb',0),default="-",
+            help="file in which SQL will be saved (default %(default)s)"
+            )
+
     parser.add_argument("--ext",
             default="sql",
             help="file extension for schema resources (default %(default)s)"
@@ -72,6 +77,16 @@ if __name__ == "__main__":
 
     project = ProjectIndexer(args.ipath, args.ext)
     context = dict(args.context or [])
+
+    # render the schema
+    sql = project.render_schema(**context)
+
+    if not sql:
+        print "Found no content, nothing to save"
+        sys.exit(1)
     
-    #TODO : this is provisional, we shall save content in a file
-    print project.render_schema(**context)
+    print "Now savings compiled SQL"
+    args.outfile.write(sql)
+    print ""
+    print "***"
+
