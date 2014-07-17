@@ -41,7 +41,7 @@ def key_value_pair(s):
 def parse_command_line():
     "read and parse command line"
 
-    parser = argparse.ArgumentParser(
+    parser = argparse.ArgumentParser(prog="sqlmake",
         description="build a SQL schema parsing all sql files found in a folder"
         )
 
