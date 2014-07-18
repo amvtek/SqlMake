@@ -127,17 +127,17 @@ class ProjectIndexer(object):
                 rsrIdx[Resource(fpath)] = folddeps
 
         # filter empty dependencies
-        if False:
-            for depset in rsrIdx.values():
+        # TODO : it maybe that empty dependencies have value
+        for depset in rsrIdx.values():
 
-                rmlist = []
-                for dep in depset:
+            rmlist = []
+            for dep in depset:
 
-                    if dep not in rsrIdx:
-                        rmlist.append(dep)
+                if dep not in rsrIdx:
+                    rmlist.append(dep)
 
-                for nulldep in rmlist:
-                    depset.remove(nulldep)
+            for nulldep in rmlist:
+                depset.remove(nulldep)
 
         return rsrIdx
 
@@ -156,8 +156,6 @@ class ProjectIndexer(object):
 
             # process resource template if any
             if rsr.tplstr:
-
-                isEmpty = False
 
                 # compile template
                 tpl = tplEnv.from_string(rsr.tplstr)

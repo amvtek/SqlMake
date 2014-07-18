@@ -11,6 +11,9 @@
 """
 
 import re
+from os.path import abspath
+
+from jinja2 import Environment # see PyPI jinja2
 
 class ContentParser(object):
     "Allows to parse resource out of file content"
@@ -78,7 +81,7 @@ class ContentParser(object):
             # set repl
             if repl is None:
                 repl = tok
-            defaultCtx[repl] = repl
+            defaultCtx[repl] = tok
             repl = "{{%s}}"%repl
 
             # set tokPattern 
@@ -97,3 +100,26 @@ class ContentParser(object):
         tplstring, defaults = self.compile_template(content)
 
         return (dependencies, tplstring, defaults)
+
+def render_resource(fpath, parser=None, **kwargs):
+    "render a single file resource"
+
+    # extract content
+    with open(abspath(fpath)) as f:
+        content = f.read()
+    
+    # prepare parser
+    parse = parser or ContentParser()
+    if not callable(parse):
+        raise ValueError("Invalid parser !")
+    
+    # compile resource template 
+    tplEnv = Environment(line_statement_prefix='--#')
+    deps, tplstr, defaults = parse(content)
+    tpl = tplEnv.from_string(tplstr)
+
+    # prepare rendering context
+    ctx = dict(defaults)
+    ctx.update(kwargs)
+
+    return tpl.render(ctx)
