@@ -24,6 +24,29 @@ to read and maintain. If you archive it in a version control system like git,
 subversion or mercurial it will also be very easy to prepare **migration**
 scripts. 
 
+Installing SqlMake
+==================
+
+Installing the **sqlmake** CLI tool currently requires you have some
+familiarities with the way python packages are distributed. For now **sqlmake**
+has been tested only with python **2.7** interpreter.
+
+To install SqlMake and its dependencies using pip, run ::
+
+    pip install SqlMake
+
+Running the sqlmake CLI
+=======================
+
+Getting help ::
+
+    sqlmake -h
+
+Compiling a schema from a set of resources ::
+
+    sqlmake --out=myschema.sql path/to/project/folder
+
+
 Preparing your files for SqlMake
 ================================
 
@@ -143,9 +166,5 @@ executed. A simple Jinja conditional block, will make this a snapp ::
 
     -- set table owner to role amvtek
     alter table t_mytable owner to amvtek;
-
-
-Installing SqlMake
-==================
 
 .. _Jinja template engine: http://jinja.pocoo.org/docs/
