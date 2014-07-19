@@ -3,14 +3,14 @@ from distutils.core import setup
 
 setup(
     name='SqlMake',
-    version='0.2.0',
+    version='0.2.1',
     author='AmvTek developers',
     author_email='devel@amvtek.com',
     packages=['sqlmake'],
     scripts=['bin/sqlmake'],
-    url='http://pypi.python.org/pypi/SqlMake/', # not yet released
+    url='https://github.com/amvtek/SqlMake/',
     license='MIT',
-    description='Command line tool to build sql schema',
+    description='Command line tool to build a sql schema',
     long_description=open('README.rst').read(),
     install_requires=[
         "Jinja2==2.7.3",
