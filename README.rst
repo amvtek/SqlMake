@@ -63,7 +63,7 @@ Assume the following project structure::
 
 So as get the *appschema/mytable.sql* resource to depends of the
 *appschema/init.sql* resource and of all the resources in the public folder just
-add the followings DEPS instruction at the top of the *mytable.sql* file ::
+add the followings DEPS instruction at the top of the *mytable.sql* file :: sql
 
     --# DEPS: init, ../public
 
@@ -73,6 +73,36 @@ add the followings DEPS instruction at the top of the *mytable.sql* file ::
 Renaming schema elements (VARS)
 -------------------------------
 
+SqlMake resources maybe used during development as *normal* SQL file without the
+help of the **sqlmake** CLI. The **VARS** instruction allows to define which
+*name* maybe redefined when compiling the schema. The **sqlmake** CLI allows to
+redefine some of the schema name by means of the **--def option**.
+
+Renaming example
+~~~~~~~~~~~~~~~~
+
+Let's assume that in file mytable.sql, we want to allows renaming at *compilation
+time* the table t_mytable into something else and also to change table owner
+amvtek into another role defined by variable schema_owner. A **VARS**
+instruction will be added at the top of the file to make this possible :: sql
+
+    --# DEPS: init, ../public
+    --# VARS: t_mytable, amvtek=owner_role
+
+    create table t_mytable(
+	id integer primary key,
+
+	name varchar(80) not null,
+	...
+    );
+
+    -- set table owner to role amvtek
+    alter table t_mytable owner to amvtek;
+
+To rename t_mytable into t_othertable and amvtek role into titus, one may use
+the sqlmake command like so ::
+
+    sqlmake --def t_mytable=t_othertable --def owner_role=titus path/to/mytable.sql
 
 
 SqlMake is built on top of the well known `Jinja template engine`_ . You may use
@@ -82,4 +112,4 @@ those in SQL comment line that starts with **--#**.
 Installing SqlMake
 ==================
 
-
+.. _Jinja template engine: http://jinja.pocoo.org/docs/
