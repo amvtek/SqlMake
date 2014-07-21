@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name='SqlMake',
-    version='0.2.1',
+    version='0.2.2',
     author='AmvTek developers',
     author_email='devel@amvtek.com',
     packages=['sqlmake'],
