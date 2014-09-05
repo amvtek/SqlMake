@@ -1,0 +1,6 @@
+include MANIFEST.in README.rst LICENSE requirements.txt
+recursive-include docs *
+recursive-exclude docs/_build *
+recursive-exclude docs *.pyc
+recursive-exclude docs *.pyo
+
