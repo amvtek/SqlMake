@@ -16,7 +16,7 @@ try:
 except ImportError:
     from StringIO import StringIO
 
-from os.path import exists, basename, abspath, normpath, join
+from os.path import exists, basename, abspath, normpath, relpath, join
 
 from jinja2 import Environment # see PyPI jinja2
 from toposort import toposort_flatten # see PyPI toposort
@@ -40,6 +40,9 @@ class ProjectIndexer(object):
     "index all resource inside a folder"
 
     _isPublic = re.compile(r"^[^\._].*")
+
+    _fileHead = "\n-- +++\n"\
+                "-- source %s\n\n%s"
     
     def __init__(self, rootpath, rfext="sql", parser=None):
 
@@ -68,6 +71,11 @@ class ProjectIndexer(object):
 
         if self._isRsrc.match(path):
             return True
+
+    def get_rpath(self, path):
+        "return path relative to project root"
+
+        return relpath(path, self.rootpath)
 
     def resolve_dependencies(self, refpath, *deps):
         "return absolute depency path or None if it can not be found"
@@ -157,8 +165,11 @@ class ProjectIndexer(object):
             # process resource template if any
             if rsr.tplstr:
 
+                # add source informations to tplstr
+                tplstr = self._fileHead % (self.get_rpath(rsr), rsr.tplstr)
+
                 # compile template
-                tpl = tplEnv.from_string(rsr.tplstr)
+                tpl = tplEnv.from_string(tplstr)
 
                 # prepare rendering context
                 ctx = {}
