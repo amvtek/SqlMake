@@ -13,7 +13,7 @@ setup(
     description='Command line tool to build a sql schema',
     long_description=open('README.rst').read(),
     install_requires=[
-        "Jinja2==2.7.3",
+        "Jinja2==2.11.3",
         "toposort==1.0.0",
     ],
 )
