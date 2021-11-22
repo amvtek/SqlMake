@@ -19,8 +19,8 @@ import re, os, sys, argparse
 
 _kvRe = re.compile("\s*([a-zA-z0-9_-]+)\s*=\s*([a-zA-Z0-9_]*)\s*$")
 
-from indexer import ProjectIndexer
-from fileparser import render_resource
+from .indexer import ProjectIndexer
+from .fileparser import render_resource
 
 def input_path(fp):
     "make fp an absolute path and checks it exist"
@@ -76,31 +76,31 @@ def main():
     args = parse_command_line()
     sql = ""
     
-    print "---"
+    print("---")
     context = dict(args.context or [])
     
     if os.path.isdir(args.ipath):
 
-        print "Now indexing project in %s " % args.ipath
+        print("Now indexing project in %s " % args.ipath)
 
         project = ProjectIndexer(args.ipath, args.ext)
         sql = project.render_schema(**context)
 
     elif os.path.isfile(args.ipath):
 
-        print "Preparing rendering of file %s" % args.ipath
+        print("Preparing rendering of file %s" % args.ipath)
         
         sql = render_resource(args.ipath, **context)
 
     if not sql:
 
-        print "Found no content, nothing to save"
+        print("Found no content, nothing to save")
         sys.exit(1)
 
-    print "Now savings compiled SQL"
+    print("Now savings compiled SQL")
     args.outfile.write(sql)
-    print ""
-    print "***"
+    print("")
+    print("***")
 
 if __name__ == '__main__':
 

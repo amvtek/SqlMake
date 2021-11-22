@@ -12,9 +12,9 @@
 import re, os
 
 try:
-    from cStringIO import StringIO
+    from io import StringIO
 except ImportError:
-    from StringIO import StringIO
+    from io import StringIO
 
 from os.path import exists, basename, abspath, normpath, relpath, join
 
@@ -22,7 +22,7 @@ from jinja2 import Environment # see PyPI jinja2
 from toposort import toposort_flatten # see PyPI toposort
 
 
-from fileparser import ContentParser
+from .fileparser import ContentParser
 
 class Resource(str):
     "filesystem resource..."
@@ -136,7 +136,7 @@ class ProjectIndexer(object):
 
         # filter empty dependencies
         # TODO : it maybe that empty dependencies have value
-        for depset in rsrIdx.values():
+        for depset in list(rsrIdx.values()):
 
             rmlist = []
             for dep in depset:
@@ -180,4 +180,4 @@ class ProjectIndexer(object):
                 buf.append(tpl.render(ctx))
 
 
-        return u"\n".join(buf)
+        return "\n".join(buf)
