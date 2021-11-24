@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
-from distutils.core import setup
+"""setup installer for the SqlMake project"""
 
-setup(
-    name='SqlMake',
-    version='0.2.3',
-    author='AmvTek developers',
-    author_email='devel@amvtek.com',
-    packages=['sqlmake'],
-    scripts=['bin/sqlmake'],
-    url='https://github.com/amvtek/SqlMake/',
-    license='MIT',
-    description='Command line tool to build a sql schema',
-    long_description=open('README.rst').read(),
-    install_requires=[
-        "Jinja2==2.11.3",
-        "toposort==1.0.0",
-    ],
-)
+from setuptools import setup
+
+if __name__ == "__main__":
+    try:
+        setup(use_scm_version={"version_scheme": "no-guess-dev"})
+    except:  # noqa
+        print(
+            "\n\nAn error occurred while building the project, "
+            "please ensure you have the most updated version of setuptools, "
+            "setuptools_scm and wheel with:\n"
+            "   pip install -U setuptools setuptools_scm wheel\n\n"
+        )
+        raise
