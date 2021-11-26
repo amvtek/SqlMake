@@ -111,7 +111,7 @@ def main():
         sys.exit(1)
 
     print("Now savings compiled SQL")
-    args.outfile.write(sql)
+    args.outfile.write(bytes(sql, "utf-8"))
     print("")
     print("***")
 
