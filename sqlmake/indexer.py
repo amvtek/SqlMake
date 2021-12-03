@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    indexer
-    ~~~~~~~
+    sqlmake.indexer
+    ~~~~~~~~~~~~~~~
 
     index sql files inside a certain folder
 
@@ -9,9 +9,8 @@
     :email: devel@amvtek.com
 """
 
-import re, os
-from io import StringIO
-
+import re
+import os
 from os.path import exists, basename, abspath, normpath, relpath, join
 
 from jinja2 import Environment  # see PyPI jinja2

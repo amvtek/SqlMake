@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-    sqlmake
-    ~~~~~~~
+    sqlmake.__main__
+    ~~~~~~~~~~~~~~~~
 
     command line tool that builds a complete SQL database schema
     from a set of files contained in a folder.
@@ -15,12 +15,16 @@
     :email: devel@amvtek.com
 """
 
-import re, os, sys, argparse
-
-_kvRe = re.compile("\s*([a-zA-z0-9_-]+)\s*=\s*([a-zA-Z0-9_]*)\s*$")
+import re
+import os
+import sys
+import argparse
 
 from .indexer import ProjectIndexer
 from .fileparser import render_resource
+
+
+_kvRe = re.compile(r"\s*([a-zA-z0-9_-]+)\s*=\s*([a-zA-Z0-9_]*)\s*$")
 
 
 def input_path(fp):
