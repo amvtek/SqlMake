@@ -22,8 +22,8 @@ copyright = 'AmvTek developers'
 author = 'AmvTek developers'
 
 # The full version, including alpha/beta/rc tags
-version = '0.2.3'
-release = '0.2.3'
+version = '0.3.0'
+release = '0.3.0'
 
 
 # -- General configuration ---------------------------------------------------
