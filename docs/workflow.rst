@@ -40,7 +40,7 @@ Assume the following project structure::
     ├── README.txt
     └── roles.sql
 
-So, to get the *appschema/mytable.sql* resource to depend of the
+So, to get the *appschema/mytable.sql* resource to depend on the
 *appschema/init.sql* resource and all the resources in the public folder, just
 add the followings DEPS instruction at the top of the *mytable.sql* file.
 
