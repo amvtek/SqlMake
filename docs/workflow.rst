@@ -6,7 +6,7 @@ Every file with *.sql* extension, in project folder or subfolders are project
 resources. 
 
 SqlMake allows to add special instructions to a resource file, in a non
-obtrusive way : 
+obtrusive way, by making use of SQL comments: 
 
 SQL comment line starts with :: 
 
@@ -22,7 +22,7 @@ Defining dependencies (DEPS)
 To add dependencies to a resource file you add **DEPS** instructions at the top
 of the file. Each **DEPS** instruction provides a comma separated list of
 relative paths to resource files or folder in your project. If you are using
-folder dependency, SqlMake will automatically assumes that all the resources it
+folder dependency, SqlMake will automatically assumes that all the resources the folder
 contains are dependencies of the file that defines it.
 
 Dependencies example
@@ -40,8 +40,8 @@ Assume the following project structure::
     ├── README.txt
     └── roles.sql
 
-So as get the *appschema/mytable.sql* resource to depends of the
-*appschema/init.sql* resource and of all the resources in the public folder just
+So, to get the *appschema/mytable.sql* resource to depend of the
+*appschema/init.sql* resource and all the resources in the public folder, just
 add the followings DEPS instruction at the top of the *mytable.sql* file.
 
 .. code-block:: sql
@@ -54,17 +54,17 @@ add the followings DEPS instruction at the top of the *mytable.sql* file.
 Renaming schema elements (VARS)
 -------------------------------
 
-SqlMake resources maybe used during development as *normal* SQL file without the
+SqlMake resources may be used during development as *normal* SQL file without the
 help of the **sqlmake** command. The **VARS** instruction allows to define which
-*name* maybe redefined when compiling the schema. The **sqlmake** command allows to
+*name* may be redefined when compiling the schema. The **sqlmake** command allows to
 redefine some of the schema name by means of the **--def option**.
 
 Renaming example
 ~~~~~~~~~~~~~~~~
 
-Let's assume that in file mytable.sql, we want to allows renaming at *compilation
-time* the table t_mytable into something else and also to change table owner
-amvtek into another role defined by variable schema_owner. A **VARS**
+Let's assume that in the mytable.sql file, we want to allow renaming the table t_mytable 
+at *compilation time* into something else and also to change the table owner
+amvtek into another role defined by variable owner_role. A **VARS**
 instruction will be added at the top of the file to make this possible.
 
 .. code-block:: sql
@@ -91,7 +91,7 @@ Unleashing the power of Jinja templates
 ---------------------------------------
 
 SqlMake is built on top of the well known `Jinja template engine`_ . You may use
-any of the statements exported by Jinja such as if/endif, for/endfor embedding
+any of the statements exported by Jinja (such as ``if/endif``, ``for/endfor``, etc) embedding
 those in SQL comment line that starts with ::
 
     --#
@@ -99,7 +99,7 @@ those in SQL comment line that starts with ::
 Jinja instruction example
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Assumes that when in development we want our example table to be created in
+Assumes that, when in development, we want our example table to be created in
 schema tests, and that tests shall be recreated each time we are loading the
 mytable.sql file in the development database. When compiling the full schema
 using **sqlmake** the commands necessary for this to happen shall not be
